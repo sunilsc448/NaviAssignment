@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.example.assignment.data.model.PullRequest"/>
+        <import type="com.example.assignment.data.model.User"/>
+        <variable name="item" type="com.example.assignment.data.model.PullRequest" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_8dp"
+        android:paddingStart="@dimen/dimen_8dp"
+        android:paddingEnd="@dimen/dimen_8dp">
+
+        <ImageView
+            android:id="@+id/avatarIv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="@dimen/dimen_image_size"
+            android:layout_height="@dimen/dimen_image_size"
+            loadImage="@{item.user.avatar}"
+            tools:src="@drawable/placeholder_image"/>
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_marginLeft="@dimen/dimen_8dp"
+            app:layout_constraintLeft_toRightOf="@id/avatarIv"
+            android:layout_marginRight="@dimen/dimen_8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            style="@style/Title"
+            tools:text="@{item.title}"/>
+
+        <TextView
+            android:id="@+id/createdDateTitleTv"
+            app:layout_constraintLeft_toLeftOf="@id/titleTv"
+            app:layout_constraintTop_toBottomOf="@id/titleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            style="@style/SubTitle"
+            android:text="@string/created_date"/>
+
+        <TextView
+            android:id="@+id/createdDateContentTv"
+            app:layout_constraintLeft_toLeftOf="@id/titleTv"
+            app:layout_constraintTop_toBottomOf="@id/createdDateTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            style="@style/SubTitleBoldItalic"
+            tools:text="@{item.created_at}"/>
+
+        <TextView
+            android:id="@+id/mergedDateTitleTv"
+            app:layout_constraintLeft_toLeftOf="@id/titleTv"
+            app:layout_constraintTop_toBottomOf="@id/createdDateContentTv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            style="@style/SubTitle"
+            android:text="@string/merged_date"/>
+
+        <TextView
+            android:id="@+id/mergedDateContentTv"
+            app:layout_constraintLeft_toLeftOf="@id/titleTv"
+            app:layout_constraintTop_toBottomOf="@id/mergedDateTitleTv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            style="@style/SubTitleBoldItalic"
+            tools:text="@{item.merged_at}"/>
+
+        <TextView
+            android:id="@+id/usernameTv"
+            app:layout_constraintLeft_toLeftOf="@id/titleTv"
+            app:layout_constraintTop_toBottomOf="@id/mergedDateContentTv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            style="@style/SubTitle"
+            android:text="@string/username"/>
+
+        <TextView
+            android:id="@+id/usernameContentTv"
+            app:layout_constraintLeft_toLeftOf="@id/titleTv"
+            app:layout_constraintTop_toBottomOf="@id/usernameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            style="@style/SubTitleBoldItalic"
+            android:text="@{@string/username_by_format(item.user.user_name)}"
+            tools:text="by sunilsc448"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

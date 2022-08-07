@@ -1,4 +1,4 @@
-package com.example.naviassignment.data.model
+package com.example.assignment.data.model
 
 import com.google.gson.annotations.SerializedName
 

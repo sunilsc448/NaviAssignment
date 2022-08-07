@@ -1,4 +1,4 @@
-package com.example.naviassignment.data.api
+package com.example.assignment.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -1,4 +1,4 @@
-package com.example.naviassignment
+package com.example.assignment
 
 import org.junit.Test
 

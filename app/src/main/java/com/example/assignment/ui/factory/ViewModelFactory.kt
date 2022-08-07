@@ -1,10 +1,10 @@
-package com.example.naviassignment.ui.factory
+package com.example.assignment.ui.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.naviassignment.data.api.ApiHelper
-import com.example.naviassignment.data.repository.MainRepository
-import com.example.naviassignment.ui.viewmodel.MainViewModel
+import com.example.assignment.data.api.ApiHelper
+import com.example.assignment.data.repository.MainRepository
+import com.example.assignment.ui.viewModel.MainViewModel
 
 class ViewModelFactory(val apiHelper: ApiHelper): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
