@@ -23,13 +23,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.getClosedPullRequests().observe(this, {
             when(it.status){
                 Status.LOADING -> {
-
+                    println("loading")
                 }
                 Status.SUCCESS -> {
-
+                    println("success")
                 }
                 Status.ERROR -> {
-
+                    println("failure")
                 }
             }
         })
