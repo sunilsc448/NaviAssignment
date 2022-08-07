@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface ApiService {
     @GET("repos/sunilsc448/NaviAssignment/pulls?state=closed")
-    suspend fun getUsers(): List<PullRequest>
+    suspend fun getClosedPullRequests(): List<PullRequest>
 }
