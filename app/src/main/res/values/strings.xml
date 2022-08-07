@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">NaviAssignment</string>
+    <string name="created_date">Created Date</string>
+    <string name="merged_date">Merged Date</string>
+    <string name="username">Username</string>
+    <string name="username_by_format">by %s</string>
+    <string name="please_wait">Fetching the data, Please wait</string>
+    <string name="error_txt">Sorry unable to fetch the data.</string>
+    <string name="no_items_text">No items exist for the User.</string>
 </resources>

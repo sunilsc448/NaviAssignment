@@ -1,6 +1,6 @@
-package com.example.naviassignment.data.api
+package com.example.assignment.data.api
 
-import com.example.naviassignment.data.model.PullRequest
+import com.example.assignment.data.model.PullRequest
 import retrofit2.http.GET
 
 interface ApiService {

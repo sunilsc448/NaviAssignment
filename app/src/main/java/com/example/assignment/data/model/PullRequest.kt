@@ -1,6 +1,4 @@
-package com.example.naviassignment.data.model
-
-import com.google.gson.annotations.SerializedName
+package com.example.assignment.data.model
 
 data class PullRequest(
     val title:String,
