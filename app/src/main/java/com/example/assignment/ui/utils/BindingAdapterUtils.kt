@@ -1,6 +1,7 @@
 package com.example.assignment.ui.utils
 
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -11,7 +12,9 @@ import com.example.assignment.data.model.PullRequest
 import com.example.assignment.ui.adapter.RecyclerViewAdapter
 import com.squareup.picasso.Picasso
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.assignment.ui.viewModel.MainViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 
 object BindingAdapterUtils {
       @BindingAdapter("bindList", "viewModel")
@@ -37,6 +40,10 @@ object BindingAdapterUtils {
                               }
                         })
                   }else{
+                        if(it.isEmpty()){
+                              recyclerVw.adapter = null
+                              return
+                        }
                         (adapter as RecyclerViewAdapter).updateData(it)
                   }
             }
@@ -91,5 +98,14 @@ object BindingAdapterUtils {
                   }
             }
             textView.text = text
+      }
+
+      @BindingAdapter("swipeToRefresh")
+      @JvmStatic
+      fun setSwipeToRefresh(swipeRefreshLayout: SwipeRefreshLayout, viewModel: MainViewModel){
+            swipeRefreshLayout.setOnRefreshListener {
+                  swipeRefreshLayout.isRefreshing = false
+                  viewModel.refresh()
+            }
       }
 }
