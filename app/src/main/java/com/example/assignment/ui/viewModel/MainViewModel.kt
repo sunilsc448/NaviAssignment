@@ -14,7 +14,7 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
         return dataStatus
     }
 
-    private var page = 1
+    private var page = 0
 
     var isLastPage:Boolean = false
     private set
@@ -27,7 +27,8 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
         fetchClosedPullRequests()
     }
 
-    private fun fetchClosedPullRequests(){
+    fun fetchClosedPullRequests(){
+        page++
         dataStatus.value = Status.LOADING
         viewModelScope.launch(Dispatchers.IO){
             try {
@@ -55,17 +56,12 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
                     }
                 }
             } catch (exception: Exception) {
+                page--
                 /** Error Handling*/
                dataStatus.value = Status.ERROR
             }
         }
     }
-
-    fun loadMore(){
-        page++
-        fetchClosedPullRequests()
-    }
-
 
 //    private val response = MutableLiveData<RemoteDataResponse>()
 //    fun getClosedPullRequests():LiveData<RemoteDataResponse> = response

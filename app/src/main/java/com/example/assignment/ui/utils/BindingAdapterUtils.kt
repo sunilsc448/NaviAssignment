@@ -25,7 +25,7 @@ object BindingAdapterUtils {
                         val linearLayoutManager:LinearLayoutManager = recyclerVw.layoutManager as LinearLayoutManager
                         recyclerVw.addOnScrollListener(object: PaginationScrollListener(linearLayoutManager) {
                               override fun loadMoreItems() {
-                                    viewModel.loadMore()
+                                    viewModel.fetchClosedPullRequests()
                               }
 
                               override fun isLastPage(): Boolean {
