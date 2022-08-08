@@ -10,10 +10,14 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
     private val dataStatus:MutableLiveData<Status> = MutableLiveData()
-    private var page = 1
     fun getDataStatus():LiveData<Status> {
         return dataStatus
     }
+
+    private var page = 1
+
+    var isLastPage:Boolean = false
+    private set
 
     private val response:MutableLiveData<List<PullRequest>> = MutableLiveData()
     fun getResponse():LiveData<List<PullRequest>> = response
@@ -41,6 +45,7 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
                         }
                     }else{
                         page--
+                        isLastPage = true
                         if(response.value == null || response.value!!.isEmpty())
                             dataStatus.value = Status.EMPTY
                     }
