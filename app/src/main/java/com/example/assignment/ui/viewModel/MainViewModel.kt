@@ -35,6 +35,8 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
                 withContext(Dispatchers.Main){
                     dataStatus.value = Status.SUCCESS
                     if(data.isNotEmpty()) {
+                        /** Pagination support
+                         * Check for already present data and stitch the new data to it*/
                         if(response.value != null && response.value!!.isNotEmpty()){
                             val newList:MutableList<PullRequest> = mutableListOf()
                             newList.addAll(response.value!!)
@@ -44,6 +46,8 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
                             response.value = data
                         }
                     }else{
+                        /** Turn off Pagination support
+                         *  If data is empty for any particular page*/
                         page--
                         isLastPage = true
                         if(response.value == null || response.value!!.isEmpty())
@@ -51,6 +55,7 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
                     }
                 }
             } catch (exception: Exception) {
+                /** Error Handling*/
                dataStatus.value = Status.ERROR
             }
         }

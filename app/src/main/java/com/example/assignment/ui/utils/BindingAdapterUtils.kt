@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.assignment.ui.viewModel.MainViewModel
 
 object BindingAdapterUtils {
-      @BindingAdapter("bindList", "viewModel")
+      @BindingAdapter("bindList", "viewModel", "dataStatus")
       @JvmStatic
-      fun setPullRequestsAdapter(recyclerVw:RecyclerView, bindList: List<PullRequest>?, viewModel: MainViewModel){
+      fun setPullRequestsAdapter(recyclerVw:RecyclerView, bindList: List<PullRequest>?, viewModel: MainViewModel, dataStatus: Status){
             bindList?.let{
                   var adapter = recyclerVw.adapter
                   if (adapter == null){
@@ -33,12 +33,11 @@ object BindingAdapterUtils {
                               }
 
                               override fun isLoading(): Boolean {
-                                  return false
+                                    return dataStatus.equals(Status.LOADING)
                               }
                         })
                   }else{
                         (adapter as RecyclerViewAdapter).updateData(it)
-//                        recyclerVw.scrollToPosition(adapter.itemCount - 1)
                   }
             }
       }
