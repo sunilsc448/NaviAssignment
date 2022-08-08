@@ -55,10 +55,10 @@ class MainRepositoryTest : TestCase() {
     class SuccessDataService:ApiService{
         private val mockedPullRequestsData = listOf(PullRequest(title = "Pull request 1",
                                                 user = User(user_name = "Sunil", avatar = ""),
-                                                created_at = "08-08-2022", merged_at = "08-08-2022"),
+                                                created_at = "08-08-2022", closed_at = "08-08-2022"),
                                             PullRequest(title = "Pull request 2",
                                                 user = User(user_name = "Sunil", avatar = ""),
-                                                created_at = "08-08-2022", merged_at = "08-08-2022") )
+                                                created_at = "08-08-2022", closed_at = "08-08-2022") )
         override suspend fun getClosedPullRequests(page: Int): List<PullRequest> {
             return mockedPullRequestsData
         }

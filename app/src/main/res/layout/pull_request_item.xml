@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             style="@style/SubTitle"
-            android:text="@string/merged_date"/>
+            android:text="@string/closed_date"/>
 
         <TextView
             android:id="@+id/mergedDateContentTv"
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             style="@style/SubTitleBoldItalic"
-            tools:text="@{item.merged_at}"/>
+            tools:text="@{item.closed_at}"/>
 
         <TextView
             android:id="@+id/closedByTv"
