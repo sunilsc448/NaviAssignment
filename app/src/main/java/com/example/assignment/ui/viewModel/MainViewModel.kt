@@ -79,32 +79,4 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
             }
         }
     }
-
-//    private val response = MutableLiveData<RemoteDataResponse>()
-//    fun getClosedPullRequests():LiveData<RemoteDataResponse> = response
-//    init {
-//        response.value = RemoteDataResponse.Response()
-//    }
-//
-//    fun fetchClosedPullRequests(){
-//        viewModelScope.launch(Dispatchers.IO){
-//            try {
-//                val data = mainRepository.getClosedPullRequests()
-//                val success = RemoteDataResponse.SuccessResponse(data = data)
-//                response.postValue(success)
-//            } catch (exception: Exception) {
-//                val error = RemoteDataResponse.ErrorResponse(exception = exception)
-//                response.postValue(error)
-//            }
-//        }
-//    }
-
-//    fun getClosedPullRequests() = liveData(Dispatchers.IO){
-//        emit(RemoteDataResponse.Response())
-//        try {
-//            emit(RemoteDataResponse.SuccessResponse(data = mainRepository.getClosedPullRequests(viewModelScope)))
-//        } catch (exception: Exception) {
-//            emit(RemoteDataResponse.ErrorResponse(exception = exception))
-//        }
-//    }
 }
