@@ -21,11 +21,6 @@ class MainRepositoryTest : TestCase() {
     private val dispatcher = TestCoroutineDispatcher()
     private lateinit var apiService: ApiService
 
-    @Before
-    override fun setUp() {
-        MockitoAnnotations.initMocks(this)
-    }
-
     @Test
     fun testGetClosedPullRequestsSuccessCase() {
         apiService = SuccessDataService()
