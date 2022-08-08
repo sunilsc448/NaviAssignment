@@ -1,16 +1,13 @@
 package com.example.assignment.ui.viewModel
 
-import android.accounts.NetworkErrorException
 import androidx.lifecycle.*
 import com.example.assignment.data.model.PullRequest
 import com.example.assignment.data.repository.MainRepository
+import com.example.assignment.ui.utils.RemoteDataResponse
 import com.example.assignment.ui.utils.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
-import java.net.UnknownHostException
 
 private const val DEBOUNCE_PERIOD = 2000L
 class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
@@ -19,16 +16,15 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
         return dataStatus
     }
 
-    private var page = 0
-
-    var isLastPage:Boolean = false
-    private set
-
-    var blockContinuousPagination = false
-    private set
-
     private val response:MutableLiveData<List<PullRequest>> = MutableLiveData()
     fun getResponse():LiveData<List<PullRequest>> = response
+
+    /** For Pagination */
+    private var page = 0
+    var isLastPage:Boolean = false
+    private set
+    var blockContinuousPagination = false
+    private set
 
     init {
         dataStatus.value = Status.EMPTY
@@ -38,41 +34,47 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
     private fun fetchClosedPullRequests(){
         page++
         dataStatus.value = Status.LOADING
-        viewModelScope.launch(Dispatchers.IO){
-
-            try {
-                val data = mainRepository.getClosedPullRequests(page)
-                withContext(Dispatchers.Main){
-                    dataStatus.value = Status.SUCCESS
-                    if(data.isNotEmpty()) {
-                        /** Pagination support
-                         * Check for already present data and stitch the new data to it*/
-                        if(response.value != null && response.value!!.isNotEmpty()){
-                            val newList:MutableList<PullRequest> = mutableListOf()
-                            newList.addAll(response.value!!)
-                            newList.addAll(data)
-                            response.value = newList
-                        }else{
-                            response.value = data
-                        }
-                    }else{
-                        /** Turn off Pagination support
-                         *  If data is empty for any particular page*/
-                        page--
-                        isLastPage = true
-                        if(response.value == null || response.value!!.isEmpty())
-                            dataStatus.value = Status.EMPTY
-                    }
+        viewModelScope.launch{
+            when(val response = mainRepository.getClosedPullRequests(page, Dispatchers.IO)){
+                is RemoteDataResponse.SuccessResponse -> {
+                    val data = response.data
+                    handleSuccessData(data)
                 }
-            }catch (throwable: Throwable){
-                page--
-                withContext(Dispatchers.Main) {
-                    when (throwable) {
-                        is NetworkErrorException, is UnknownHostException -> dataStatus.value = Status.NO_NETWORK
-                        is Exception -> dataStatus.value = Status.API_ERROR
-                    }
+                is RemoteDataResponse.ErrorResponse ->{
+                    handleErrorData(response)
                 }
             }
+        }
+    }
+
+    private fun handleErrorData(response: RemoteDataResponse.ErrorResponse) {
+        page--
+        when (response.status) {
+            Status.NETWORK_ERROR -> dataStatus.value = Status.NETWORK_ERROR
+            else -> dataStatus.value = Status.API_ERROR
+        }
+    }
+
+    private fun handleSuccessData(data: List<PullRequest>) {
+        dataStatus.value = Status.SUCCESS
+        if(data.isNotEmpty()) {
+            /** Pagination support
+             * Check for already present data and stitch the new data to it*/
+            if(response.value != null && response.value!!.isNotEmpty()){
+                val newList:MutableList<PullRequest> = mutableListOf()
+                newList.addAll(response.value!!)
+                newList.addAll(data)
+                response.value = newList
+            }else{
+                response.value = data
+            }
+        }else{
+            /** Turn off Pagination support
+             *  If data is empty for any particular page*/
+            page--
+            isLastPage = true
+            if(response.value == null || response.value!!.isEmpty())
+                dataStatus.value = Status.EMPTY
         }
     }
 
