@@ -12,6 +12,7 @@ import com.example.assignment.databinding.ActivityMainBinding
 import com.example.assignment.ui.factory.ViewModelFactory
 import com.example.assignment.ui.viewModel.MainViewModel
 import com.example.assignment.BR
+import com.example.assignment.data.api.USERNAME
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -23,29 +24,12 @@ class MainActivity : AppCompatActivity() {
         dataBinding.lifecycleOwner = this
         setupUI()
         setViewModel()
-//        initObservers()
     }
 
     private fun setupUI() {
-      supportActionBar?.setTitle(resources.getString(R.string.action_bar_title))
-
+      val title = String.format(resources.getString(R.string.action_bar_title), USERNAME, resources.getString(R.string.Project))
+      supportActionBar?.setTitle(title)
     }
-
-//    private fun initObservers() {
-//        viewModel.getDataStatus().observe(this, { status ->
-//            when(status){
-//                Status.EMPTY -> {
-//                    viewModel.fetchClosedPullRequests()
-//                }
-//                Status.SUCCESS -> {
-//                    println("success")
-//                }
-//                Status.ERROR -> {
-//                    println("failure")
-//                }
-//            }
-//        })
-//    }
 
     private fun setViewModel() {
         viewModel = ViewModelProvider(this, ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))).get(MainViewModel::class.java)

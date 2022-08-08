@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("repos/sunilsc448/NaviAssignment/pulls?state=closed&per_page=10")
+    @GET("/pulls?state=closed&per_page=$PER_PAGE")
     suspend fun getClosedPullRequests(@Query("page")page:Int): List<PullRequest>
 }

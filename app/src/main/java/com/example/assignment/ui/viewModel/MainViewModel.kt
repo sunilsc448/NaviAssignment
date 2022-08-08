@@ -5,9 +5,11 @@ import com.example.assignment.data.model.PullRequest
 import com.example.assignment.data.repository.MainRepository
 import com.example.assignment.ui.utils.Status
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+private const val DEBOUNCE_PERIOD = 500L
 class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
     private val dataStatus:MutableLiveData<Status> = MutableLiveData()
     fun getDataStatus():LiveData<Status> {
@@ -27,7 +29,7 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
         fetchClosedPullRequests()
     }
 
-    fun fetchClosedPullRequests(){
+    private fun fetchClosedPullRequests(){
         page++
         dataStatus.value = Status.LOADING
         viewModelScope.launch(Dispatchers.IO){
@@ -61,6 +63,11 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
                dataStatus.value = Status.ERROR
             }
         }
+    }
+
+    suspend fun loadMore(){
+        delay(DEBOUNCE_PERIOD)
+        fetchClosedPullRequests()
     }
 
 //    private val response = MutableLiveData<RemoteDataResponse>()
