@@ -16,21 +16,20 @@ import com.example.assignment.ui.viewModel.MainViewModel
 object BindingAdapterUtils {
       @BindingAdapter("bindList", "viewModel")
       @JvmStatic
-      fun setPullRequestsAdapter(recyclerVw:RecyclerView, bindList: List<PullRequest>?, viewModel: MainViewModel?){
+      fun setPullRequestsAdapter(recyclerVw:RecyclerView, bindList: List<PullRequest>?, viewModel: MainViewModel){
             bindList?.let{
                   var adapter = recyclerVw.adapter
                   if (adapter == null){
                         adapter = RecyclerViewAdapter(it)
                         recyclerVw.adapter = adapter
                         val linearLayoutManager:LinearLayoutManager = recyclerVw.layoutManager as LinearLayoutManager
-//                        val linearLayoutManager = LinearLayoutManager(recyclerVw.context, LinearLayoutManager.VERTICAL, false)
                         recyclerVw.addOnScrollListener(object: PaginationScrollListener(linearLayoutManager) {
                               override fun loadMoreItems() {
-                                    viewModel?.loadMore()
+                                    viewModel.loadMore()
                               }
 
                               override fun isLastPage(): Boolean {
-                                  return false
+                                  return viewModel.isLastPage
                               }
 
                               override fun isLoading(): Boolean {
