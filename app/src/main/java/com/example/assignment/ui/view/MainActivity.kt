@@ -2,7 +2,6 @@ package com.example.assignment.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.assignment.R
@@ -13,7 +12,6 @@ import com.example.assignment.ui.factory.ViewModelFactory
 import com.example.assignment.ui.viewModel.MainViewModel
 import com.example.assignment.BR
 import com.example.assignment.data.api.USERNAME
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel:MainViewModel
@@ -28,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI() {
       val title = String.format(resources.getString(R.string.action_bar_title), USERNAME, resources.getString(R.string.Project))
-      supportActionBar?.setTitle(title)
+        supportActionBar?.title = title
     }
 
     private fun setViewModel() {
