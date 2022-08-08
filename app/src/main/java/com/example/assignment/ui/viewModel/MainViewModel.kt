@@ -10,7 +10,10 @@ import kotlinx.coroutines.withContext
 
 class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
     private val dataStatus:MutableLiveData<Status> = MutableLiveData()
-    fun getDataStatus():LiveData<Status> = dataStatus
+    private var page = 1
+    fun getDataStatus():LiveData<Status> {
+        return dataStatus
+    }
 
     private val response:MutableLiveData<List<PullRequest>> = MutableLiveData()
     fun getResponse():LiveData<List<PullRequest>> = response
@@ -20,23 +23,37 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
         fetchClosedPullRequests()
     }
 
-    fun fetchClosedPullRequests(){
+    private fun fetchClosedPullRequests(){
         dataStatus.value = Status.LOADING
         viewModelScope.launch(Dispatchers.IO){
             try {
-                val data = mainRepository.getClosedPullRequests()
+                val data = mainRepository.getClosedPullRequests(page)
                 withContext(Dispatchers.Main){
-                    if(data.size > 0) {
-                        dataStatus.value = Status.SUCCESS
-                        response.value = data
+                    dataStatus.value = Status.SUCCESS
+                    if(data.isNotEmpty()) {
+                        if(response.value != null && response.value!!.isNotEmpty()){
+                            val newList:MutableList<PullRequest> = mutableListOf()
+                            newList.addAll(response.value!!)
+                            newList.addAll(data)
+                            response.value = newList
+                        }else{
+                            response.value = data
+                        }
                     }else{
-                        dataStatus.value = Status.EMPTY
+                        page--
+                        if(response.value == null || response.value!!.isEmpty())
+                            dataStatus.value = Status.EMPTY
                     }
                 }
             } catch (exception: Exception) {
                dataStatus.value = Status.ERROR
             }
         }
+    }
+
+    fun loadMore(){
+        page++
+        fetchClosedPullRequests()
     }
 
 

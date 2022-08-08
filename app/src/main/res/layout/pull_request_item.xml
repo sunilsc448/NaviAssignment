@@ -76,22 +76,22 @@
             tools:text="@{item.merged_at}"/>
 
         <TextView
-            android:id="@+id/usernameTv"
+            android:id="@+id/closedByTv"
             app:layout_constraintLeft_toLeftOf="@id/titleTv"
             app:layout_constraintTop_toBottomOf="@id/mergedDateContentTv"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             style="@style/SubTitle"
-            android:text="@string/username"/>
+            android:text="@string/closed_by"/>
 
         <TextView
-            android:id="@+id/usernameContentTv"
+            android:id="@+id/closeByContentTv"
             app:layout_constraintLeft_toLeftOf="@id/titleTv"
-            app:layout_constraintTop_toBottomOf="@id/usernameTv"
+            app:layout_constraintTop_toBottomOf="@id/closedByTv"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             style="@style/SubTitleBoldItalic"
-            android:text="@{@string/username_by_format(item.user.user_name)}"
+            android:text="@{item.user.user_name}"
             tools:text="by sunilsc448"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

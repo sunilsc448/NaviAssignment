@@ -31,7 +31,8 @@ class RecyclerViewAdapter(var mList:List<Any>?):RecyclerView.Adapter<RecyclerVie
     override fun getItemCount() = mList?.size ?: 0
 
     fun updateData(list:List<Any>?){
+        val prevCount:Int = getItemCount()
         mList = list
-        notifyDataSetChanged()
+        notifyItemRangeChanged(prevCount, getItemCount())
     }
 }
