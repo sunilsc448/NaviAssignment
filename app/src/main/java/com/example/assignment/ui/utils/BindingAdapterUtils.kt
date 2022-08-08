@@ -12,12 +12,11 @@ import com.example.assignment.ui.adapter.RecyclerViewAdapter
 import com.squareup.picasso.Picasso
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.assignment.ui.viewModel.MainViewModel
-import kotlinx.coroutines.runBlocking
 
 object BindingAdapterUtils {
-      @BindingAdapter("bindList", "viewModel", "dataStatus")
+      @BindingAdapter("bindList", "viewModel")
       @JvmStatic
-      fun setPullRequestsAdapter(recyclerVw:RecyclerView, bindList: List<PullRequest>?, viewModel: MainViewModel, dataStatus: Status){
+      fun setPullRequestsAdapter(recyclerVw:RecyclerView, bindList: List<PullRequest>?, viewModel: MainViewModel){
             bindList?.let{
                   var adapter = recyclerVw.adapter
                   if (adapter == null){
@@ -25,7 +24,7 @@ object BindingAdapterUtils {
                         recyclerVw.adapter = adapter
                         val linearLayoutManager:LinearLayoutManager = recyclerVw.layoutManager as LinearLayoutManager
                         recyclerVw.addOnScrollListener(object: PaginationScrollListener(linearLayoutManager) {
-                              override fun loadMoreItems() = runBlocking{
+                              override fun loadMoreItems(){
                                     viewModel.loadMore()
                               }
 
@@ -34,7 +33,7 @@ object BindingAdapterUtils {
                               }
 
                               override fun isLoading(): Boolean {
-                                    return dataStatus.equals(Status.LOADING)
+                                    return viewModel.blockContinuousPagination
                               }
                         })
                   }else{
