@@ -71,7 +71,7 @@ object BindingAdapterUtils {
                         textView.visibility = View.VISIBLE
                         textView.resources.getString(R.string.please_wait)
                   }
-                  Status.NO_NETWORK ->
+                  Status.NETWORK_ERROR ->
                   {
                         textView.visibility = View.VISIBLE
                         textView.resources.getString(R.string.no_network_error_txt)

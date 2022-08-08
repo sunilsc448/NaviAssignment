@@ -5,5 +5,5 @@ enum class Status {
     SUCCESS,
     EMPTY,
     API_ERROR,
-    NO_NETWORK
+    NETWORK_ERROR
 }
