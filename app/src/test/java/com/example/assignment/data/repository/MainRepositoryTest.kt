@@ -9,9 +9,7 @@ import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import org.junit.Before
 import org.junit.Test
-import org.mockito.MockitoAnnotations
 import java.io.IOException
 
 @ExperimentalCoroutinesApi
