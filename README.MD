@@ -14,3 +14,4 @@
  - Coroutines - Suspending computations
  - Dagger - Dependency Injection
  - Retrofit - Rest API service
+12. Pull to refresh is additional feature.

@@ -89,4 +89,17 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
             }
         }
     }
+
+    fun refresh(){
+        reset()
+        fetchClosedPullRequests()
+    }
+
+    private fun reset() {
+        page = 0
+        dataStatus.value = Status.EMPTY
+        isLastPage = false
+        blockContinuousPagination = false
+        response.value = emptyList()
+    }
 }
