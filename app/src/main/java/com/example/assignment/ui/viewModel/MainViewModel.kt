@@ -9,7 +9,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val DEBOUNCE_PERIOD = 500L
+private const val DEBOUNCE_PERIOD = 2000L
 class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
     private val dataStatus:MutableLiveData<Status> = MutableLiveData()
     fun getDataStatus():LiveData<Status> {
@@ -19,6 +19,9 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
     private var page = 0
 
     var isLastPage:Boolean = false
+    private set
+
+    var blockContinuousPagination = false
     private set
 
     private val response:MutableLiveData<List<PullRequest>> = MutableLiveData()
@@ -65,9 +68,16 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
         }
     }
 
-    suspend fun loadMore(){
-        delay(DEBOUNCE_PERIOD)
-        fetchClosedPullRequests()
+    fun loadMore(){
+        /** blockContinuousLoad blocks the back to back pagination calls */
+        if(!blockContinuousPagination) {
+            blockContinuousPagination = true
+            fetchClosedPullRequests()
+            viewModelScope.launch {
+                delay(DEBOUNCE_PERIOD)
+                blockContinuousPagination = false
+            }
+        }
     }
 
 //    private val response = MutableLiveData<RemoteDataResponse>()
