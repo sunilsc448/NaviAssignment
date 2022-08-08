@@ -8,6 +8,6 @@ sealed class RemoteDataResponse {
     open class Response(override val status: Status = Status.LOADING) : RemoteDataResponse()
     class SuccessResponse(override val status: Status = Status.SUCCESS, val data:List<PullRequest>):
         Response()
-    class ErrorResponse(override val status: Status = Status.ERROR, val exception: Exception):
+    class ErrorResponse(override val status: Status = Status.API_ERROR, val exception: Exception):
         RemoteDataResponse()
 }

@@ -4,5 +4,6 @@ enum class Status {
     LOADING,
     SUCCESS,
     EMPTY,
-    ERROR,
+    API_ERROR,
+    NO_NETWORK
 }

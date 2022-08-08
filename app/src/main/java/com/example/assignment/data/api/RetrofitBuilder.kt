@@ -1,22 +1,26 @@
 package com.example.assignment.data.api
 
+import android.content.Context
+import com.example.assignment.network.NetworkInterceptor
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 /**Constants for Github API,
  * Change the Configuration her for other
  * account and repo*/
-const val USERNAME = "sunilsc448"
-const val REPO_NAME = "NaviAssignment"
-const val PER_PAGE = 10
-
-private const val BASE_URL = "https://api.github.com/repos/$USERNAME/$REPO_NAME/"
 object RetrofitBuilder {
-    private fun getRetrofit(): Retrofit {
+    private fun getRetrofit(httpClient: OkHttpClient, factory: Converter.Factory): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
+            .addConverterFactory(factory)
             .build()
     }
-    val apiService: ApiService = getRetrofit().create(ApiService::class.java)
+
+    private fun getClient():OkHttpClient = OkHttpClient.Builder().build()
+    private fun getFactory():Converter.Factory = GsonConverterFactory.create()
+    fun getApiService():ApiService = getRetrofit(getClient(), getFactory()).create(ApiService::class.java)
 }

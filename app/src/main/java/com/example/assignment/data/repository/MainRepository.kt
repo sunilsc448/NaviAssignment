@@ -1,9 +1,9 @@
 package com.example.assignment.data.repository
 
-import com.example.assignment.data.api.ApiHelper
+import com.example.assignment.data.api.ApiService
 import com.example.assignment.data.model.PullRequest
-import kotlinx.coroutines.CoroutineScope
+import javax.inject.Inject
 
-class MainRepository(private val apiHelper: ApiHelper){
-    suspend fun getClosedPullRequests(page:Int):List<PullRequest> = apiHelper.getClosedPullRequests(page)
+class MainRepository @Inject constructor (val apiService: ApiService){
+    suspend fun getClosedPullRequests(page:Int):List<PullRequest> = apiService.getClosedPullRequests(page)
 }

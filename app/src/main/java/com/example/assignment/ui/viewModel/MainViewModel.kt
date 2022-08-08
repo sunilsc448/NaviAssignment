@@ -1,5 +1,6 @@
 package com.example.assignment.ui.viewModel
 
+import android.accounts.NetworkErrorException
 import androidx.lifecycle.*
 import com.example.assignment.data.model.PullRequest
 import com.example.assignment.data.repository.MainRepository
@@ -8,6 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
+import java.net.UnknownHostException
 
 private const val DEBOUNCE_PERIOD = 2000L
 class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
@@ -36,6 +39,7 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
         page++
         dataStatus.value = Status.LOADING
         viewModelScope.launch(Dispatchers.IO){
+
             try {
                 val data = mainRepository.getClosedPullRequests(page)
                 withContext(Dispatchers.Main){
@@ -60,10 +64,14 @@ class MainViewModel(private val mainRepository: MainRepository): ViewModel() {
                             dataStatus.value = Status.EMPTY
                     }
                 }
-            } catch (exception: Exception) {
+            }catch (throwable: Throwable){
                 page--
-                /** Error Handling*/
-               dataStatus.value = Status.ERROR
+                withContext(Dispatchers.Main) {
+                    when (throwable) {
+                        is NetworkErrorException, is UnknownHostException -> dataStatus.value = Status.NO_NETWORK
+                        is Exception -> dataStatus.value = Status.API_ERROR
+                    }
+                }
             }
         }
     }
