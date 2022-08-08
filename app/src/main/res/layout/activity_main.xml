@@ -18,6 +18,7 @@
             android:layout_height="0dp"
             viewModel="@{viewModel}"
             bindList="@{viewModel.response}"
+            dataStatus="@{viewModel.dataStatus}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
             android:layout_marginTop="@dimen/dimen_8dp"
