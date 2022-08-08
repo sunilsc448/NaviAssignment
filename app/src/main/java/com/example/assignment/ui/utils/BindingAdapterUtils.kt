@@ -12,6 +12,7 @@ import com.example.assignment.ui.adapter.RecyclerViewAdapter
 import com.squareup.picasso.Picasso
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.assignment.ui.viewModel.MainViewModel
+import kotlinx.coroutines.runBlocking
 
 object BindingAdapterUtils {
       @BindingAdapter("bindList", "viewModel", "dataStatus")
@@ -24,8 +25,8 @@ object BindingAdapterUtils {
                         recyclerVw.adapter = adapter
                         val linearLayoutManager:LinearLayoutManager = recyclerVw.layoutManager as LinearLayoutManager
                         recyclerVw.addOnScrollListener(object: PaginationScrollListener(linearLayoutManager) {
-                              override fun loadMoreItems() {
-                                    viewModel.fetchClosedPullRequests()
+                              override fun loadMoreItems() = runBlocking{
+                                    viewModel.loadMore()
                               }
 
                               override fun isLastPage(): Boolean {

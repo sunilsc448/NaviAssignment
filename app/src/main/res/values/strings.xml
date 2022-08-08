@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">NaviAssignment</string>
+    <string name="Project">Navi</string>
     <string name="created_date">Created Date</string>
     <string name="merged_date">Merged Date</string>
     <string name="closed_by">Closed by</string>
     <string name="please_wait">Fetching the data, Please wait</string>
     <string name="error_txt">Sorry unable to fetch the data.</string>
     <string name="no_items_text">No items exist for the User.</string>
-    <string name="action_bar_title">"Username:sunilsc448, Project:Navi"</string>
+    <string name="action_bar_title">"Username:%s, Project:%s"</string>
 </resources>
