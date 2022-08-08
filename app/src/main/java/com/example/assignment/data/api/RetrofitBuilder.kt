@@ -10,7 +10,7 @@ const val USERNAME = "sunilsc448"
 const val REPO_NAME = "NaviAssignment"
 const val PER_PAGE = 10
 
-private const val BASE_URL = "https://api.github.com/repos/$USERNAME/$REPO_NAME"
+private const val BASE_URL = "https://api.github.com/repos/$USERNAME/$REPO_NAME/"
 object RetrofitBuilder {
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
