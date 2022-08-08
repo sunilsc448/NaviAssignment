@@ -6,20 +6,37 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.assignment.R
 import com.example.assignment.data.model.PullRequest
 import com.example.assignment.ui.adapter.RecyclerViewAdapter
+import com.squareup.picasso.Picasso
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.assignment.ui.viewModel.MainViewModel
 
 object BindingAdapterUtils {
-      @BindingAdapter("bindList")
+      @BindingAdapter("bindList", "viewModel")
       @JvmStatic
-      fun setPullRequestsAdapter(recyclerVw:RecyclerView, bindList: List<PullRequest>?){
+      fun setPullRequestsAdapter(recyclerVw:RecyclerView, bindList: List<PullRequest>?, viewModel: MainViewModel?){
             bindList?.let{
                   var adapter = recyclerVw.adapter
                   if (adapter == null){
                         adapter = RecyclerViewAdapter(it)
                         recyclerVw.adapter = adapter
+                        val linearLayoutManager:LinearLayoutManager = recyclerVw.layoutManager as LinearLayoutManager
+//                        val linearLayoutManager = LinearLayoutManager(recyclerVw.context, LinearLayoutManager.VERTICAL, false)
+                        recyclerVw.addOnScrollListener(object: PaginationScrollListener(linearLayoutManager) {
+                              override fun loadMoreItems() {
+                                    viewModel?.loadMore()
+                              }
+
+                              override fun isLastPage(): Boolean {
+                                  return false
+                              }
+
+                              override fun isLoading(): Boolean {
+                                  return false
+                              }
+                        })
                   }else{
                         (adapter as RecyclerViewAdapter).updateData(it)
 //                        recyclerVw.scrollToPosition(adapter.itemCount - 1)
@@ -30,7 +47,7 @@ object BindingAdapterUtils {
       @BindingAdapter("loadImage")
       @JvmStatic
       fun setImage(imageView: ImageView, url: String?) {
-          Glide.with(imageView.context).load(url).placeholder(R.drawable.placeholder_image).into(imageView)
+          Picasso.with(imageView.context).load(url).placeholder(R.drawable.placeholder_image).into(imageView)
       }
 
       @BindingAdapter("setProgressBar")
@@ -42,9 +59,15 @@ object BindingAdapterUtils {
           }
       }
 
-      @BindingAdapter("setDataStatusText")
+      @BindingAdapter("setDataStatusText", "list")
       @JvmStatic
-      fun setDataStatusText(textView: TextView, dataStatus: Status){
+      fun setDataStatusText(textView: TextView, dataStatus: Status, list: List<PullRequest>?){
+            list?.let {
+                  if(it.isNotEmpty()){
+                        textView.visibility = View.GONE
+                        return
+                  }
+            }
             val text = when(dataStatus){
                   Status.LOADING -> {
                         textView.visibility = View.VISIBLE
