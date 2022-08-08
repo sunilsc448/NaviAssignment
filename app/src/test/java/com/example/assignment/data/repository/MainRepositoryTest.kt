@@ -6,16 +6,17 @@ import com.example.assignment.data.model.PullRequest
 import com.example.assignment.data.model.User
 import com.example.assignment.ui.utils.Status
 import junit.framework.TestCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.mockito.MockitoAnnotations
 import java.io.IOException
 
+@ExperimentalCoroutinesApi
 class MainRepositoryTest : TestCase() {
-    private lateinit var SUT: MainRepository
+    private lateinit var systemUnderTest: MainRepository
 
     private val dispatcher = TestCoroutineDispatcher()
     private lateinit var apiService: ApiService
@@ -28,10 +29,10 @@ class MainRepositoryTest : TestCase() {
     @Test
     fun testGetClosedPullRequestsSuccessCase() {
         apiService = SuccessDataService()
-        SUT = MainRepository(apiService)
+        systemUnderTest = MainRepository(apiService)
         val page = 1
         runBlocking {
-            val result = SUT.getClosedPullRequests(page, dispatcher)
+            val result = systemUnderTest.getClosedPullRequests(page, dispatcher)
             assertEquals(result.status, Status.SUCCESS)
         }
     }
@@ -39,10 +40,10 @@ class MainRepositoryTest : TestCase() {
     @Test
     fun testGetClosedPullRequestsNetworkErrorCase() {
         apiService = NetworkErrorDataService()
-        SUT = MainRepository(apiService)
+        systemUnderTest = MainRepository(apiService)
         val page = 1
         runBlocking {
-            val result = SUT.getClosedPullRequests(page, dispatcher)
+            val result = systemUnderTest.getClosedPullRequests(page, dispatcher)
             assertEquals(result.status, Status.NETWORK_ERROR)
         }
     }
@@ -50,16 +51,16 @@ class MainRepositoryTest : TestCase() {
     @Test
     fun testGetClosedPullRequestsAPIErrorCase() {
         apiService = APIErrorDataService()
-        SUT = MainRepository(apiService)
+        systemUnderTest = MainRepository(apiService)
         val page = 1
         runBlocking {
-            val result = SUT.getClosedPullRequests(page, dispatcher)
+            val result = systemUnderTest.getClosedPullRequests(page, dispatcher)
             assertEquals(result.status, Status.API_ERROR)
         }
     }
 
     class SuccessDataService:ApiService{
-        val mockedPullRequestsData = listOf(PullRequest(title = "Pull request 1",
+        private val mockedPullRequestsData = listOf(PullRequest(title = "Pull request 1",
                                                 user = User(user_name = "Sunil", avatar = ""),
                                                 created_at = "08-08-2022", merged_at = "08-08-2022"),
                                             PullRequest(title = "Pull request 2",
