@@ -1,7 +1,6 @@
 package com.example.assignment.ui.utils
 
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -14,7 +13,6 @@ import com.squareup.picasso.Picasso
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.assignment.ui.viewModel.MainViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 object BindingAdapterUtils {
       @BindingAdapter("bindList", "viewModel")
@@ -107,5 +105,11 @@ object BindingAdapterUtils {
                   swipeRefreshLayout.isRefreshing = false
                   viewModel.refresh()
             }
+      }
+
+      @BindingAdapter("formatDate")
+      @JvmStatic
+      fun setFormattedDate(textView: TextView, input: String){
+           textView.text = Utility.getReadableDate(input)
       }
 }
