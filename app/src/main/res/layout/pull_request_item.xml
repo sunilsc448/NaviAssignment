@@ -23,6 +23,7 @@
             android:layout_width="@dimen/dimen_image_size"
             android:layout_height="@dimen/dimen_image_size"
             loadImage="@{item.user.avatar}"
+            tools:ignore="ContentDescription"
             tools:src="@drawable/placeholder_image"/>
 
         <TextView
@@ -37,7 +38,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             style="@style/Title"
-            tools:text="@{item.title}"/>
+            android:text="@{item.title}"/>
 
         <TextView
             android:id="@+id/createdDateTitleTv"
@@ -55,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             style="@style/SubTitleBoldItalic"
-            tools:text="@{item.created_at}"/>
+            formatDate="@{item.created_at}"/>
 
         <TextView
             android:id="@+id/mergedDateTitleTv"
@@ -73,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             style="@style/SubTitleBoldItalic"
-            tools:text="@{item.closed_at}"/>
+            formatDate="@{item.closed_at}"/>
 
         <TextView
             android:id="@+id/closedByTv"
